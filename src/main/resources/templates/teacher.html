@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            width: 75%;
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Styles for form validation */
+        input:invalid,
+        select:invalid {
+            border-color: #dc3545;
+        }
+
+        input:valid,
+        select:valid {
+            border-color: #28a745;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher Dashboard :: <span th:text ="${message}"></span></h1>
+        <form th:action="@{/searchStudents}" method="post">
+            <input type="hidden" id="message" name="message" th:value="${message}">
+            <input type="hidden" id="teacherClass" name="teacherClass" th:value="${teacherClass}">
+            <input type="hidden" id="teachingSubject" name="teachingSubject" th:value="${teachingSubject}">
+
+            <label for="classBelongTo">Select Class:</label>
+            <select id="classBelongTo" name="classBelongTo" required>
+                <option value="Grade-4">4th Grade</option>
+                <option value="Grade-5">5th Grade</option>
+                <option value="Grade-6">6th Grade</option>
+                <option value="Grade-7">7th Grade</option>
+            </select>
+            <label for="examType">Select Exam Type:</label>
+            <select id="examType" name="examType" required>
+                <option value="Mid-1">Mid Exam - 1</option>
+                <option value="Mid-2">Mid Exam - 2</option>
+                <option value="Final">Final</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Go</button>
+        </form>
+
+
+        <div th:if="${students != null and not #lists.isEmpty(students)}" class="container">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Regional Language</th>
+                    <th>Computer Sciences</th>
+                    <th>Maths</th>
+                    <th>Science</th>
+                    <th>Social</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student: ${students}">
+                    <td th:text="${student.firstName}"></td>
+                    <td th:text="${student.lastName}"></td>
+                    <td th:text="${student.email}"></td>
+                    <td th:text="${student.regionalLanguage}"></td>
+                    <td th:text="${student.computerSciences}"></td>
+                    <td th:text="${student.maths}"></td>
+                    <td th:text="${student.science}"></td>
+                    <td th:text="${student.social}"></td>
+                    <td>
+                        <!-- Edit button -->
+                        <button type="button" class="btn btn-primary" th:attr="onclick='openEditModal(\'' + ${student.id} + '\', \'' + ${student.password} + '\',
+                        \'' + ${student.classBelongTo} + '\',\'' + ${student.role} + '\',\'' + ${student.examType} + '\',\'' + ${student.firstName} + '\',
+                        \'' + ${student.lastName} + '\',\'' + ${student.email} + '\',\'' + ${student.regionalLanguage} + '\',\'' + ${student.computerSciences} + '\',
+                        \'' + ${student.maths} + '\',\'' + ${student.science} + '\', \'' + ${student.social} + '\',
+                        \'' + ${teacherClass} + '\',\'' + ${teachingSubject} + '\' )'">Edit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <!-- Modal content -->
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/updateStudent}" method="post">
+                            <input type="hidden" id="modalId" name="id">
+                            <input type="hidden" id="modalPassword" name="password">
+                            <input type="hidden" id="modalClassBelongTo" name="classBelongTo">
+                            <input type="hidden" id="modalRole" name="role">
+                            <input type="hidden" id="modalExamType" name="examType">
+
+                            <div class="form-group">
+                                <label for="modalFirstName">First Name:</label>
+                                <input type="text" class="form-control" id="modalFirstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                            <label for="modalLastName">Last Name:</label>
+                            <input type="text" class="form-control" id="modalLastName" name="lastName" required>
+                            </div>
+                            <div class="form-group">
+                            <label for="modalEmail">Email:</label>
+                            <input type="text" class="form-control" id="modalEmail" name="email">
+                            </div>
+                            <div class="form-group" id="modalDivRegionalLanguage">
+                            <label for="modalRegionalLanguage">Regional Language:</label>
+                            <input type="text" class="form-control" id="modalRegionalLanguage" name="regionalLanguage">
+                            </div>
+                            <div class="form-group" id="modalDivComputerSciences">
+                            <label for="modalComputerSciences">Computer Sciences:</label>
+                            <input type="text" class="form-control" id="modalComputerSciences" name="computerSciences">
+                            </div>
+                            <div class="form-group" id="modalDivMaths">
+                            <label for="modalMaths">Maths:</label>
+                            <input type="text" class="form-control" id="modalMaths" name="maths">
+                            </div>
+                            <div class="form-group" id="modalDivScience">
+                            <label for="modalScience">Science:</label>
+                            <input type="text" class="form-control" id="modalScience" name="science">
+                            </div>
+                            <div class="form-group" id="modalDivSocial">
+                            <label for="modalSocial">Social:</label>
+                            <input type="text" class="form-control" id="modalSocial" name="social">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${errorMessage != null}">
+            <br>
+            <h3> <span th:text="${errorMessage}" ></span></h3>
+        </div>
+
+    </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+    function openEditModal(id, password, classBelongTo, role, examType, firstName, lastName, email, regionalLanguage,
+                            computerSciences, maths, science, social, teacherClass, teachingSubject) {
+        // Set values of modal fields
+        document.getElementById('modalId').value = id;
+        document.getElementById('modalPassword').value = password;
+        document.getElementById('modalClassBelongTo').value = classBelongTo;
+        document.getElementById('modalRole').value = role;
+        document.getElementById('modalExamType').value = examType;
+        document.getElementById('modalFirstName').value = firstName;
+        document.getElementById('modalLastName').value = lastName;
+        document.getElementById('modalEmail').value = email;
+        console.log("regionalLanguage :: " + regionalLanguage)
+        document.getElementById('modalRegionalLanguage').value = regionalLanguage !== null ? regionalLanguage : "0.0";
+        document.getElementById('modalComputerSciences').value = computerSciences !== null ? computerSciences : "0.0";
+        document.getElementById('modalMaths').value = maths !== null ? maths : "0.0";
+        document.getElementById('modalScience').value = science !== null ? science : "0.0";
+        document.getElementById('modalSocial').value = social !== null ? social : "0.0";
+
+        console.log(teachingSubject.replace(/\s/g, ''))
+
+        if (teacherClass !== classBelongTo) {
+            const subjects = ["modalDivRegionalLanguage", "modalDivComputerSciences", "modalDivMaths", "modalDivScience", "modalDivSocial"];
+            subjects.filter(item => !item.includes(teachingSubject.replace(/\s/g, '')))
+                .forEach((subject) => {
+                    document.getElementById(subject).style.display = "none";
+                    document.getElementById(subject).value = "0.0";
+                    console.log(subject);
+                });
+        }
+
+        // Open the modal
+        $('#editModal').modal('show');
+    }
+</script>
+
+</body>
+</html>

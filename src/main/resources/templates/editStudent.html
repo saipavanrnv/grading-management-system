@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Styles for form validation */
+        input:invalid,
+        select:invalid {
+            border-color: #dc3545;
+        }
+
+        input:valid,
+        select:valid {
+            border-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Edit Student</h2>
+    <form th:action="@{/updateStudent}" method="post" th:object="${student}">
+        <input type="hidden" id="id" name="id" th:value="${student.id}">
+        <input type="hidden" id="password" name="password" th:value="${student.password}">
+        <input type="hidden" id="classBelongTo" name="classBelongTo" th:value="${student.classBelongTo}">
+        <input type="hidden" id="role" name="role" th:value="${student.role}">
+        <input type="hidden" id="examType" name="examType" th:value="${student.examType}">
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" th:value="${student.firstName}">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" th:value="${student.lastName}">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" th:value="${student.email}">
+        <label for="regionalLanguage">Regional Language:</label>
+        <input type="text" id="regionalLanguage" name="regionalLanguage" th:value="${student.regionalLanguage}">
+        <label for="computerSciences">Computer Sciences:</label>
+        <input type="text" id="computerSciences" name="computerSciences" th:value="${student.computerSciences}">
+        <label for="maths">Maths:</label>
+        <input type="text" id="maths" name="maths" th:value="${student.maths}">
+        <label for="science">Science:</label>
+        <input type="text" id="science" name="science" th:value="${student.science}">
+        <label for="social">Social:</label>
+        <input type="text" id="social" name="social" th:value="${student.social}">
+        <button type="submit">Update</button>
+    </form>
+</div>
+</body>
+</html>

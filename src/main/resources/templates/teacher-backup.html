@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Styles for form validation */
+        input:invalid,
+        select:invalid {
+            border-color: #dc3545;
+        }
+
+        input:valid,
+        select:valid {
+            border-color: #28a745;
+        }
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.4); /* Black with opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+          background-color: #fefefe;
+          margin: 15% auto; /* 15% from the top and centered */
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
+    </style>
+<!--    <script th:inline="javascript">-->
+<!--        function openEditPopup(id, firstName, lastName, email, regionalLanguage, computerSciences, maths, science, social) {-->
+<!--            // Open popup window with form for editing student data-->
+<!--            var popup = window.open('', 'editStudent', 'width=600,height=400');-->
+<!--            popup.document.write('<html><head><title>Edit Student</title></head><body>');-->
+<!--            popup.document.write('<h2>Edit Student</h2>');-->
+<!--            popup.document.write('<form id="editForm" th:action="@{/updateStudent}" method="post">');-->
+<!--            popup.document.write('<input type="hidden" id="id" name="id" value="' + id + '">');-->
+<!--            popup.document.write('<label for="firstName">First Name:</label>');-->
+<!--            popup.document.write('<input type="text" id="firstName" name="firstName" value="' + firstName + '" required>');-->
+<!--            popup.document.write('<label for="lastName">Last Name:</label>');-->
+<!--            popup.document.write('<input type="text" id="lastName" name="lastName" value="' + lastName + '" required>');-->
+<!--            popup.document.write('<label for="email">Email:</label>');-->
+<!--            popup.document.write('<input type="text" id="email" name="email" value="' + email + '">');-->
+<!--            popup.document.write('<label for="regionalLanguage">Regional Language:</label>');-->
+<!--            popup.document.write('<input type="text" id="regionalLanguage" name="regionalLanguage" value="' + regionalLanguage + '">');-->
+<!--            popup.document.write('<label for="computerSciences">Computer Sciences:</label>');-->
+<!--            popup.document.write('<input type="text" id="computerSciences" name="computerSciences" value="' + computerSciences + '">');-->
+<!--            popup.document.write('<label for="maths">Maths:</label>');-->
+<!--            popup.document.write('<input type="text" id="maths" name="maths" value="' + maths + '">');-->
+<!--            popup.document.write('<label for="science">Science:</label>');-->
+<!--            popup.document.write('<input type="text" id="science" name="science" value="' + science + '">');-->
+<!--            popup.document.write('<label for="social">Social:</label>');-->
+<!--            popup.document.write('<input type="text" id="social" name="social" value="' + social + '">');-->
+<!--            popup.document.write('<button type="submit">Save</button>');-->
+<!--            popup.document.write('</form>');-->
+<!--            popup.document.write('</body></html>');-->
+<!--            popup.focus();-->
+<!--        }-->
+<!--    </script>-->
+<!--    <script type="text/javascript">-->
+<!--        var modal = document.getElementById("editModal");-->
+
+<!--        // When the user clicks on <span> (x), close the modal-->
+<!--        function closeEditModal() {-->
+<!--          document.getElementById("editModal").style.display = "none";-->
+<!--        }-->
+
+<!--        // Function to open modal with student data-->
+<!--        function openEditModal(id, firstName, lastName, email, regionalLanguage, computerSciences, maths, science, social) {-->
+<!--            console.log("Opening modal...");-->
+<!--            console.log("First Name: " + firstName);-->
+<!--            console.log("Last Name: " + lastName);-->
+<!--            console.log("Email: " + email);-->
+<!--            document.getElementById("id").value = id;-->
+<!--            document.getElementById("firstName").value = firstName;-->
+<!--            document.getElementById("lastName").value = lastName;-->
+<!--            document.getElementById("email").value = email;-->
+<!--            document.getElementById("regionalLanguage").value = regionalLanguage;-->
+<!--            document.getElementById("computerSciences").value = computerSciences;-->
+<!--            document.getElementById("maths").value = maths;-->
+<!--            document.getElementById("science").value = science;-->
+<!--            document.getElementById("social").value = social;-->
+<!--            document.getElementById("editModal").style.display = "block";-->
+<!--        }-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        // Get the modal-->
+<!--        var modal = document.getElementById("editModal");-->
+
+<!--        // When the user clicks on <span> (x), close the modal-->
+<!--        function closeEditModal() {-->
+<!--          document.getElementById("editModal").style.display = "none";-->
+<!--        }-->
+
+<!--        // Function to open modal with student data-->
+<!--        function openEditModal() {-->
+<!--            document.querySelectorAll('.edit-btn').forEach(button => {-->
+<!--                button.addEventListener('click', function() {-->
+<!--                    console.log(this.getAttribute('data-first-name'))-->
+
+<!--                    document.getElementById("id").value = this.getAttribute('data-student-id');-->
+<!--                    document.getElementById("firstName").value = this.getAttribute('data-first-name');-->
+<!--                    document.getElementById("lastName").value = this.getAttribute('data-last-name');-->
+<!--                    document.getElementById("email").value = this.getAttribute('data-email');-->
+<!--                    document.getElementById("regionalLanguage").value = this.getAttribute('data-regionalLanguage');-->
+<!--                    document.getElementById("computerSciences").value = this.getAttribute('data-computerSciences');-->
+<!--                    document.getElementById("maths").value = this.getAttribute('data-maths');-->
+<!--                    document.getElementById("science").value = this.getAttribute('data-science');-->
+<!--                    document.getElementById("social").value = this.getAttribute('data-social');-->
+
+<!--                    document.getElementById("editModal").style.display = "block";-->
+<!--                });-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
+
+</head>
+<body>
+<div class="container">
+    <h1>Teacher Dashboard :: <span th:text ="${message}"></span></h1>
+
+    <form th:action="@{/searchStudents}" method="post">
+        <label for="classBelongTo">Select Class:</label>
+        <select id="classBelongTo" name="classBelongTo" required>
+            <option value="Grade-4">4th Grade</option>
+            <option value="Grade-5">5th Grade</option>
+            <option value="Grade-6">6th Grade</option>
+            <option value="Grade-7">7th Grade</option>
+        </select>
+        <label for="examType">Select Exam Type:</label>
+        <select id="examType" name="examType" required>
+            <option value="Mid-1">Mid Exam - 1</option>
+            <option value="Mid-2">Mid Exam - 2</option>
+            <option value="Final">Final</option>
+        </select>
+        <button type="submit">Go</button>
+    </form>
+
+    <div th:if="${students != null and not #lists.isEmpty(students)}">
+        <table border="1" >
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Regional Language</th>
+                <th>Computer Sciences</th>
+                <th>Maths</th>
+                <th>Science</th>
+                <th>Social</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student: ${students}">
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.lastName}"></td>
+                <td th:text="${student.email}"></td>
+                <td th:text="${student.regionalLanguage}"></td>
+                <td th:text="${student.computerSciences}"></td>
+                <td th:text="${student.maths}"></td>
+                <td th:text="${student.science}"></td>
+                <td th:text="${student.social}"></td>
+                <td>
+                    <a th:href="@{/updateStudent/{id} (id=${student.id})}"> EDIT </a>
+                </td>
+
+<!--                <td>-->
+<!--&lt;!&ndash;                <button onclick="openEditModal(*/'[[${student.id}]]',*/'${student.firstName}','[[${student.lastName}]]','[[${student.email}]]',&ndash;&gt;-->
+<!--&lt;!&ndash;                '[[${student.regionalLanguage}]]','[[${student.computerSciences}]]','[[${student.maths}]]','[[${student.science}]]','[[${student.social}]]')">Edit</button>&ndash;&gt;-->
+<!--                    <button class="edit-btn" onclick="openEditModal()" data-student-id="${student.id}" data-first-name="${student.firstName}"-->
+<!--                            data-last-name="${student.lastName}" data-email="${student.email}" data-regionalLanguage=${student.regionalLanguage}-->
+<!--                            data-computerSciences="${student.computerSciences}" data-maths="${student.maths}"-->
+<!--                            data-science="${student.science}" data-social="${student.social}">Edit</button>-->
+<!--                </td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="editModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Student</h2>
+            <form id="editForm" th:action="@{/updateStudent}" method="post">
+                <input type="hidden" id="id" name="id">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+                <label for="lastName">Last Name:</label>');
+                <input type="text" id="lastName" name="lastName" required>
+                <label for="email">Email:</label>');
+                <input type="text" id="email" name="email">');
+                <label for="regionalLanguage">Regional Language:</label>
+                <input type="text" id="regionalLanguage" name="regionalLanguage">
+                <label for="computerSciences">Computer Sciences:</label>');
+                <input type="text" id="computerSciences" name="computerSciences">
+                <label for="maths">Maths:</label>');
+                <input type="text" id="maths" name="maths">
+                <label for="science">Science:</label>');
+                <input type="text" id="science" name="science">
+                <label for="social">Social:</label>');
+                <input type="text" id="social" name="social">
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${errorMessage != null}">
+        <h3> <span th:text="${errorMessage}" ></span> </h3>
+    </div>
+
+</div>
+</body>
+</html>

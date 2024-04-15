@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Styles for form validation */
+        input:invalid,
+        select:invalid {
+            border-color: #dc3545;
+        }
+
+        input:valid,
+        select:valid {
+            border-color: #28a745;
+        }
+    </style>
+    <script th:if="${successMessage != null}" th:inline="javascript">
+        window.onload = function() {
+            alert([[${successMessage}]]);
+        };
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Admin Dashboard :: <span th:text ="${message}"></span></h1>
+    <button onclick="location.href='/addUser'">Add New User</button>
+    <br>
+    <br>
+    <button onclick="location.href='/viewAllUsers'">View All Users</button>
+</div>
+</body>
+</html>

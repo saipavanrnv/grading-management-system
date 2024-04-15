@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Styles for form validation */
+        input:invalid,
+        select:invalid {
+            border-color: #dc3545;
+        }
+
+        input:valid,
+        select:valid {
+            border-color: #28a745;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<!--<div class="container">-->
+<!--    <h1>Student Dashboard :: <span th:text ="${message}"></span></h1>-->
+<!--    <div th:if="${student != null}" class="container">-->
+<!--        <table class="table table-striped">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>Subject</th>-->
+<!--                <th>Grades</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr>-->
+<!--                <td> Regional Language </td>-->
+<!--                <td th:text="${student.regionalLanguage}"></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td> Computer Sciences </td>-->
+<!--                <td th:text="${student.computerSciences}"></td>-->
+<!--            </tr>-->
+<!--&lt;!&ndash;            <tr th:each="student: ${students}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.firstName}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.lastName}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.email}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.regionalLanguage}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.computerSciences}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.maths}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.science}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td th:text="${student.social}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    &lt;!&ndash; Edit button &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button type="button" class="btn btn-primary" th:attr="onclick='openEditModal(\'' + ${student.id} + '\', \'' + ${student.password} + '\',&ndash;&gt;-->
+<!--&lt;!&ndash;                        \'' + ${student.classBelongTo} + '\',\'' + ${student.role} + '\',\'' + ${student.examType} + '\',\'' + ${student.firstName} + '\',&ndash;&gt;-->
+<!--&lt;!&ndash;                        \'' + ${student.lastName} + '\',\'' + ${student.email} + '\',\'' + ${student.regionalLanguage} + '\',\'' + ${student.computerSciences} + '\',&ndash;&gt;-->
+<!--&lt;!&ndash;                        \'' + ${student.maths} + '\',\'' + ${student.science} + '\', \'' + ${student.social} + '\',&ndash;&gt;-->
+<!--&lt;!&ndash;                        \'' + ${teacherClass} + '\',\'' + ${teachingSubject} + '\' )'">Edit</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;            </tr>&ndash;&gt;-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<div class="container mt-4">
+    <h1 class="mb-4">Student Report Card</h1>
+
+    <!-- Student Details -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h3>Student Details</h3>
+            <p><strong>Name:</strong> <span th:text="${student.firstName}" ></span> </p>
+            <p><strong>Class:</strong> <span th:text="${student.classBelongTo}" ></span></p>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Grades</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> Regional Language </td>
+                        <td th:text="${student.regionalLanguage}"></td>
+                    </tr>
+                    <tr>
+                        <td> Computer Sciences </td>
+                        <td th:text="${student.computerSciences}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
